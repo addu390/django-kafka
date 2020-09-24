@@ -21,12 +21,46 @@ Django + Kafka 🚀
 - In foreground `brew services start kafka`
 - In background `zookeeper-server-start /usr/local/etc/kafka/zookeeper.properties & kafka-server-start /usr/local/etc/kafka/server.properties`
 
+#### Tip
+- Run ZK and Kafka `zookeeper-server-start /usr/local/etc/kafka/zookeeper.properties & kafka-server-start /usr/local/etc/kafka/server.properties`
+
 For details on how to set-up a django project with best practices: https://pyblog.xyz/django-initial-setup/
 
 #### Settings
 - Update Kafka - host and port in `settings.py` 
 ```
-KAFKA_BOOTSTRAP_SERVER = 'http://localhost:9092'
+LOGPIPE = {
+    'OFFSET_BACKEND': 'logpipe.backend.kafka.ModelOffsetStore',
+    'CONSUMER_BACKEND': 'logpipe.backend.kafka.Consumer',
+    'PRODUCER_BACKEND': 'logpipe.backend.kafka.Producer',
+    'KAFKA_BOOTSTRAP_SERVERS': [
+        'kafka:9092'
+    ],
+    'KAFKA_CONSUMER_KWARGS': {
+        'group_id': 'django-logpipe',
+    },
+
+    # Optional Settings
+    # 'KAFKA_SEND_TIMEOUT': 10,
+    # 'KAFKA_MAX_SEND_RETRIES': 0,
+    # 'MIN_MESSAGE_LAG_MS': 0,
+    # 'DEFAULT_FORMAT': 'json',
+}
 ```
+
+#### Installation
+- `pip install django-logpipe`
+- Documentation: https://pypi.org/project/django-logpipe/
+
+- Add `logpipe` to your installed apps.
+```
+INSTALLED_APPS = [
+    ...
+    'logpipe',
+    ...
+]
+```
+- Run migrations to store Kafka log position offsets: `python manage.py migrate logpipe`
+- To process messages for all consumers automatically in a round-robin fashion: `python manage.py run_kafka_consumer` 
 
 ###### Note: The project is an example for  Django application as a producer/consumer 😋 
