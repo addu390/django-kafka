@@ -1,1 +1,1 @@
-# Django Pyblog `Work In Progress 🚁`
+# Django Kafka `Work In Progress 🚁`
