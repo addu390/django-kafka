@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 from logpipe import Consumer, register_consumer
-from .models import PersonSerializer
+from .models import MessageSerializer
 
 
 class PublishSubscribeConfig(AppConfig):
@@ -8,7 +8,7 @@ class PublishSubscribeConfig(AppConfig):
 
 
 @register_consumer
-def build_person_consumer():
-    consumer = Consumer('people')
-    consumer.register(PersonSerializer)
+def build_message_consumer():
+    consumer = Consumer('message')
+    consumer.register(MessageSerializer)
     return consumer

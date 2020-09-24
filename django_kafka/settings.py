@@ -24,7 +24,7 @@ LOGPIPE = {
     'CONSUMER_BACKEND': 'logpipe.backend.kafka.Consumer',
     'PRODUCER_BACKEND': 'logpipe.backend.kafka.Producer',
     'KAFKA_BOOTSTRAP_SERVERS': [
-        'kafka:9092'
+        'localhost:9092'
     ],
     'KAFKA_CONSUMER_KWARGS': {
         'group_id': 'django-logpipe',
