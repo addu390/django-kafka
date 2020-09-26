@@ -1,4 +1,14 @@
 import os
+from decouple import config
+
+CELERY_TIMEZONE = 'Europe/Warsaw'
+# Let's make things happen
+CELERY_BEAT_SCHEDULE = {
+ 'poll-every-second': {
+       'task': 'receive',
+       'schedule': 1.0,
+    }
+}
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -15,9 +25,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_beat',
     'publish_subscribe'
 ]
 ALLOWED_HOSTS = ['*']
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,8 +64,12 @@ WSGI_APPLICATION = 'django_kafka.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('HOST_ENDPOINT'),
+        'PORT': '3306',
     }
 }
 

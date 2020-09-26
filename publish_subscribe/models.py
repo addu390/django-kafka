@@ -14,3 +14,6 @@ class UserProducer(object):
         self.username = username
         self.data = data
         self._token = token
+
+    class Meta:
+        managed = False

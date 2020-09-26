@@ -58,9 +58,24 @@ Or set-up Kafka and Zookeeper Separately
 
 For details on how to set-up a django project with best practices: https://pyblog.xyz/django-initial-setup/
 
-To start the consumer:
-- Uncomment `receive()` in `publish_subscribe/apps.py` - Alternatively, run the consumer code on a different thread in daemon mode
-- To process messages for all consumers automatically in a round-robin fashion: `python manage.py runserver`
+#### Celery Installation - For polling
+- `pip install amqp`
+- `pip install celery==4.4.0` (Note: Celery 5.0 is not compatible with django-celery-beat)
+- `pip install django-celery-beat`
+
+- Start worker and beat `celery -A django_kafka beat -l INFO -S django`
+- Start RabbitMQ `brew services start rabbitmq`
+
+#### Update settings.py
+```
+INSTALLED_APPS = [
+    ...,
+    'django_celery_beat',
+]
+```
+- Run migrations: `python manage.py migrate django_celery_beat` 
+
+Note: In this project, the same Django project is the Producer and Consumer, but you can choose you have a standalone consumer.
 
 #### Have a look at:
 - https://docs.confluent.io/current/getting-started.html 

@@ -3,3 +3,4 @@ migrations/
 __pycache__
 db.sqlite3
 .idea
+celerybeat-schedule.db
