@@ -1,6 +1,40 @@
-# Django Kafka `Work In Progress 🚁`
+# Django Kafka 🚁
 Django + Kafka 🚀
 
+#### Confluent Installation (Local set-up)
+- `pip install confluent-kafka`
+- Download confluent platform from: https://www.confluent.io/download/ and unzip the file.
+- `export CONFLUENT_HOME=<path-to-confluent>`
+- `export PATH=$PATH:$CONFLUENT_HOME/bin`
+- `$CONFLUENT_HOME/bin/confluent-hub install \ --no-prompt confluentinc/kafka-connect-datagen:latest`
+
+The output would be:
+```
+Running in a "--no-prompt" mode
+...
+Completed
+```
+
+- Start the service: `confluent local start`
+The output should resemble:
+```
+Starting Zookeeper
+Zookeeper is [UP]
+Starting Kafka
+Kafka is [UP]
+Starting Schema Registry
+Schema Registry is [UP]
+Starting Kafka REST
+Kafka REST is [UP]
+Starting Connect
+Connect is [UP]
+Starting KSQL Server
+KSQL Server is [UP]
+Starting Control Center
+Control Center is [UP]
+```
+
+Or set-up Kafka and Zookeeper Separately
 #### Kafka
 - Simply put, Kafka is a distributed publish-subscribe messaging system that maintains feeds of messages in partitioned and replicated topics. 
 - In the simplest way there are three players in the Kafka ecosystem: producers, topics (run by brokers) and consumers.
@@ -26,41 +60,8 @@ Django + Kafka 🚀
 
 For details on how to set-up a django project with best practices: https://pyblog.xyz/django-initial-setup/
 
-#### Settings
-- Update Kafka - host and port in `settings.py` 
-```
-LOGPIPE = {
-    'OFFSET_BACKEND': 'logpipe.backend.kafka.ModelOffsetStore',
-    'CONSUMER_BACKEND': 'logpipe.backend.kafka.Consumer',
-    'PRODUCER_BACKEND': 'logpipe.backend.kafka.Producer',
-    'KAFKA_BOOTSTRAP_SERVERS': [
-        'kafka:9092'
-    ],
-    'KAFKA_CONSUMER_KWARGS': {
-        'group_id': 'django-logpipe',
-    },
-
-    # Optional Settings
-    # 'KAFKA_SEND_TIMEOUT': 10,
-    # 'KAFKA_MAX_SEND_RETRIES': 0,
-    # 'MIN_MESSAGE_LAG_MS': 0,
-    # 'DEFAULT_FORMAT': 'json',
-}
-```
-
-#### Installation
-- `pip install django-logpipe`
-- Documentation: https://pypi.org/project/django-logpipe/
-
-- Add `logpipe` to your installed apps.
-```
-INSTALLED_APPS = [
-    ...
-    'logpipe',
-    ...
-]
-```
-- Run migrations to store Kafka log position offsets: `python manage.py migrate logpipe`
-- To process messages for all consumers automatically in a round-robin fashion: `python manage.py run_kafka_consumer` 
+To start the consumer:
+- Uncomment `receive()` in `publish_subscribe/apps.py` - Alternatively, run the consumer code on a different thread in daemon mode
+- To process messages for all consumers automatically in a round-robin fashion: `python manage.py runserver`
 
 ###### Note: The project is an example for  Django application as a producer/consumer 😋 
