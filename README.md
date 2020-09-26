@@ -67,5 +67,6 @@ To start the consumer:
 - https://www.instaclustr.com/apache-kafka-architecture/
 - https://github.com/confluentinc/confluent-kafka-python
 - https://docs.confluent.io/current/schema-registry/index.html
+- https://docs.confluent.io/current/quickstart/ce-quickstart.html
 
 ###### Note: The project is an example for  Django application as a producer/consumer 😋 
