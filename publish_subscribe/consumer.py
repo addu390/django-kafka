@@ -1,7 +1,7 @@
 from confluent_kafka import DeserializingConsumer
 from confluent_kafka.schema_registry.json_schema import JSONDeserializer
 from confluent_kafka.serialization import StringDeserializer
-from .constants import USER_SCHEMA
+from .constants import USER_SCHEMA, USER_TOPIC
 from .transformers import dict_to_user
 import logging
 import traceback
@@ -17,7 +17,7 @@ def receive():
                      'auto.offset.reset': "earliest"}
 
     consumer = DeserializingConsumer(consumer_conf)
-    consumer.subscribe(['leon'])
+    consumer.subscribe([USER_TOPIC])
 
     """
     The idea is to start the Kafka consumer when the message is sent to the Kafka producer.

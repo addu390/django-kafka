@@ -3,11 +3,13 @@ from confluent_kafka import SerializingProducer
 from confluent_kafka.serialization import StringSerializer
 from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry.json_schema import JSONSerializer
-from .constants import USER_SCHEMA
+
+from django_kafka.settings import SCHEMA_REGISTRY_URL
+from .constants import USER_SCHEMA, USER_TOPIC
 from .transformers import user_to_dict
 from .models import UserProducer
 
-schema_registry_conf = {'url': 'http://localhost:8081'}
+schema_registry_conf = {'url': SCHEMA_REGISTRY_URL}
 schema_registry_client = SchemaRegistryClient(schema_registry_conf)
 
 
@@ -31,5 +33,5 @@ def send(username, data, token):
                         data=data,
                         token=token)
 
-    producer.produce(topic='leon', key=str(uuid4()), value=user,
+    producer.produce(topic=USER_TOPIC, key=str(uuid4()), value=user,
                      on_delivery=delivery_report)

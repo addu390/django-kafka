@@ -1,22 +1,11 @@
 import os
 from decouple import config
 
-CELERY_TIMEZONE = 'Europe/Warsaw'
-# Let's make things happen
-CELERY_BEAT_SCHEDULE = {
- 'poll-every-second': {
-       'task': 'receive',
-       'schedule': 1.0,
-    }
-}
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'gc97l0(yyw(^)bwezc)#^3ir5+!@z1%x18&fs9r%e-q^+ziq0e'
+SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -30,7 +19,8 @@ INSTALLED_APPS = [
 ]
 ALLOWED_HOSTS = ['*']
 
-CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'amqp://127.0.0.1:5672'
+SCHEMA_REGISTRY_URL = config('SCHEMA_REGISTRY_URL')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

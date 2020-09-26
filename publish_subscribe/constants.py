@@ -17,3 +17,5 @@ USER_SCHEMA = """
       "required": [ "username", "data" ]
     }
     """
+
+USER_TOPIC = 'leon'
