@@ -1,4 +1,4 @@
-# Django Kafka `Work In Progress 🚁`
+# Django Kafka 🚁
 Django + Kafka 🚀
 
 #### Confluent Installation (Local set-up)
