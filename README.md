@@ -33,6 +33,7 @@ KSQL Server is [UP]
 Starting Control Center
 Control Center is [UP]
 ```
+- Stop services: `confluent local stop`
 
 Or set-up Kafka and Zookeeper Separately
 #### Kafka
@@ -55,13 +56,16 @@ Or set-up Kafka and Zookeeper Separately
 - In foreground `brew services start kafka`
 - In background `zookeeper-server-start /usr/local/etc/kafka/zookeeper.properties & kafka-server-start /usr/local/etc/kafka/server.properties`
 
-#### Tip
-- Run ZK and Kafka `zookeeper-server-start /usr/local/etc/kafka/zookeeper.properties & kafka-server-start /usr/local/etc/kafka/server.properties`
-
 For details on how to set-up a django project with best practices: https://pyblog.xyz/django-initial-setup/
 
 To start the consumer:
 - Uncomment `receive()` in `publish_subscribe/apps.py` - Alternatively, run the consumer code on a different thread in daemon mode
 - To process messages for all consumers automatically in a round-robin fashion: `python manage.py runserver`
+
+#### Have a look at:
+- https://docs.confluent.io/current/getting-started.html 
+- https://www.instaclustr.com/apache-kafka-architecture/
+- https://github.com/confluentinc/confluent-kafka-python
+- https://docs.confluent.io/current/schema-registry/index.html
 
 ###### Note: The project is an example for  Django application as a producer/consumer 😋 
