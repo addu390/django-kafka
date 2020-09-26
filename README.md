@@ -1,5 +1,5 @@
 # Django Kafka 🚁
-Django + Kafka 🚀
+Django + Kafka + Celery 🚀
 
 #### Confluent Installation (Local set-up)
 - `pip install confluent-kafka`
