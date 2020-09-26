@@ -18,17 +18,24 @@ def receive():
 
     consumer = DeserializingConsumer(consumer_conf)
     consumer.subscribe(['leon'])
-    try:
-        msg = consumer.poll(timeout=5.0)
-        if msg is not None:
-            user = msg.value()
-            if user is not None:
-                print("User record {}: username: {}\n"
-                      "\tdata: {}\n"
-                      .format(msg.key(), user.username,
-                              user.data))
 
-    except Exception as e:
-        print('An exception occurred: {}'.format(e))
-        logging.error(traceback.format_exc())
+    """
+    The idea is to start the Kafka consumer when the message is sent to the Kafka producer.
+    Resulting in two queues: Task Queue and Message/Content Queue.
+    Multi-threading might be an overkill for a simple application, hence the for loop (Temporary). 
+    """
+    for x in range(200):
+        try:
+            msg = consumer.poll(timeout=5.0)
+            if msg is not None:
+                user = msg.value()
+                if user is not None:
+                    print("User record {}: username: {}\n"
+                          "\tdata: {}\n"
+                          .format(msg.key(), user.username,
+                                  user.data))
+
+        except Exception as e:
+            print('An exception occurred: {}'.format(e))
+            logging.error(traceback.format_exc())
 
